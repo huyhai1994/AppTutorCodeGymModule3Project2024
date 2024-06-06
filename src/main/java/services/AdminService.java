@@ -58,12 +58,35 @@ public class AdminService {
         }
     }
 
-    public void deleteClass(int id) {
+    public void deleteGroup(int id) {
         try {
             adminModel.deleteClass(id);
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public Student getStudentById(int id) {
+        try {
+            return adminModel.getStudentById(id);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public Group getClassById(int id) {
+        try {
+            return adminModel.getClassById(id);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
+    public Group getGroupById(int id) {
+        return null;
     }
 }
 

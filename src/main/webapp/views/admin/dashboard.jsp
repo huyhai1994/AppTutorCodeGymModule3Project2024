@@ -15,8 +15,8 @@
 <h1>Admin Dashboard</h1>
 <nav>
     <ul>
-        <li><a href="${pageContext.request.contextPath}/admin/manage-students">Manage Students</a></li>
-        <li><a href="${pageContext.request.contextPath}/admin/manage-classes">Manage Classes</a></li>
+        <li><a href="/admin/manage-students">Manage Students</a></li>
+        <li><a href="/admin/manage-classes">Manage Classes</a></li>
     </ul>
 </nav>
 <p>Welcome to the admin dashboard!</p>

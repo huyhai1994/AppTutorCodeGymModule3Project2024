@@ -42,17 +42,10 @@ public class AdminModel {
     }
 
     public boolean editStudent(Student student) throws SQLException {
-        String query = "UPDATE student SET name=?, code=?, password=?, gender=?, birthofdate=?, email=?, phone=?, class_id=? WHERE id=?";
+        String query = "call edit_student(?,?)";
         PreparedStatement preparedStatement = connection.prepareStatement(query);
-        preparedStatement.setString(1, student.getName());
-        preparedStatement.setString(2, student.getCode());
-        preparedStatement.setString(3, student.getPassword());
-        preparedStatement.setString(4, student.getGender());
-        preparedStatement.setString(5, student.getBirthOfDate());
-        preparedStatement.setString(6, student.getEmail());
-        preparedStatement.setString(7, student.getPhone());
-        preparedStatement.setInt(8, student.getClassId());
-        preparedStatement.setInt(9, student.getId());
+        preparedStatement.setInt(1, student.getClassId());
+        preparedStatement.setString(2, student.getName());
         return preparedStatement.executeUpdate() > 0;
     }
 
@@ -91,5 +84,44 @@ public class AdminModel {
         PreparedStatement preparedStatement = connection.prepareStatement(query);
         preparedStatement.setInt(1, classId);
         return preparedStatement.executeUpdate() > 0;
+    }
+
+    public Student getStudentById(int id) throws SQLException {
+        String query = "SELECT * FROM student WHERE id = ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setInt(1, id);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if (resultSet.next()) {
+            Student student = new Student();
+            student.setId(resultSet.getInt("id"));
+            student.setName(resultSet.getString("name"));
+            student.setCode(resultSet.getString("code"));
+            student.setPassword(resultSet.getString("password"));
+            student.setGender(resultSet.getString("gender"));
+            student.setBirthOfDate(resultSet.getDate("birthofdate"));
+            student.setEmail(resultSet.getString("email"));
+            student.setPhone(resultSet.getString("phone"));
+            student.setClassId(resultSet.getInt("class_id"));
+            return student;
+        }
+        return null;
+    }
+
+    public Group getClassById(int id) throws SQLException {
+        String query = "SELECT * FROM class WHERE id = ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setInt(1, id);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if (resultSet.next()) {
+            Group group = new Group();
+            group.setId(resultSet.getInt("id"));
+            group.setCode(resultSet.getString("code"));
+            group.setName(resultSet.getString("name"));
+            group.setStartDay(resultSet.getDate("startday").toString());
+            group.setEndDay(resultSet.getDate("endday").toString());
+            group.setAdminId(resultSet.getInt("admin_id"));
+            return group;
+        }
+        return null;
     }
 }

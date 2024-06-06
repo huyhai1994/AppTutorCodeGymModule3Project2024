@@ -26,18 +26,27 @@ public class AdminServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getPathInfo();
-        System.out.println(action);
-        if (action == null) {
+        request.setCharacterEncoding("utf-8");
+        if (action.equals("/dashboard")) {
             request.getRequestDispatcher("/views/admin/dashboard.jsp").forward(request, response);
         } else if (action.equals("/manage-students")) {
             request.getRequestDispatcher("/views/admin/manageStudents.jsp").forward(request, response);
         } else if (action.equals("/manage-classes")) {
             request.getRequestDispatcher("/views/admin/manageClasses.jsp").forward(request, response);
+        } else if (action.equals("/edit-student")) {
+            request.setAttribute("action", "edit");
+            request.setAttribute("entityType", "student");
+            request.getRequestDispatcher("/views/admin/edit.jsp").forward(request, response);
+        } else if (action.equals("/edit-group")) {
+            request.setAttribute("action", "edit");
+            request.setAttribute("entityType", "group");
+            request.getRequestDispatcher("/views/admin/edit.jsp").forward(request, response);
         }
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getPathInfo();
+        request.setCharacterEncoding("utf-8");
         if (action.equals("/manage-students")) {
             String studentAction = request.getParameter("studentAction");
             if (studentAction != null) {
@@ -46,6 +55,7 @@ public class AdminServlet extends HttpServlet {
                         addStudent(request, response);
                         break;
                     case "edit":
+                        System.out.println("Here edit");
                         editStudent(request, response);
                         break;
                     case "delete":
@@ -53,6 +63,7 @@ public class AdminServlet extends HttpServlet {
                         break;
                 }
             }
+            response.sendRedirect(request.getContextPath() + "/admin/manage-students");
         } else if (action.equals("/manage-classes")) {
             String classAction = request.getParameter("classAction");
             if (classAction != null) {
@@ -68,8 +79,8 @@ public class AdminServlet extends HttpServlet {
                         break;
                 }
             }
+            response.sendRedirect(request.getContextPath() + "/admin/manage-classes");
         }
-        response.sendRedirect(request.getContextPath() + "/admin" + action);
     }
 
     private void addStudent(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -163,6 +174,6 @@ public class AdminServlet extends HttpServlet {
 
     private void deleteClass(HttpServletRequest request, HttpServletResponse response) throws IOException {
         int id = Integer.parseInt(request.getParameter("id"));
-        adminService.deleteClass(id);
+        adminService.deleteGroup(id);
     }
 }
