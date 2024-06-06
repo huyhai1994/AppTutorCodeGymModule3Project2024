@@ -4,14 +4,14 @@ public class Admin  extends User{
 
     public Admin() {}
 
-    public Admin(String name, String email, String password, String code, String birthOfDate, String gender, String phone ) {
-        this.name = name;
-        this.email = email;
-        this.password = password;
-        this.code = code;
-        this.birthOfDate = birthOfDate;
-        this.gender = gender;
-        this.phone = phone;
+    private int id;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
 /**

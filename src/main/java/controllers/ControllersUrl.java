@@ -6,6 +6,8 @@ public class ControllersUrl {
      * gui yeu cau va nhan phan hoi tu servlet
      * */
     public static final String AUTHORIZATION = "/auth/*";
+
+
     public static final String LOGIN = "/auth/login";
     public static final String LOGOUT = "/auth/logout";
 
