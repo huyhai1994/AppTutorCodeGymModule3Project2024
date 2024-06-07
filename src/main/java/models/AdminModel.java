@@ -1,6 +1,7 @@
 package models;
 
 import databases.DBConnect;
+import entity.Admin;
 import entity.Group;
 import entity.Student;
 
@@ -113,7 +114,7 @@ public class AdminModel {
             student.setCode(resultSet.getString("code"));
             student.setPassword(resultSet.getString("password"));
             student.setGender(resultSet.getString("gender"));
-            student.setBirthOfDate(resultSet.getDate("birthofdate"));
+            student.setBirthOfDate(resultSet.getString("birthofdate"));
             student.setEmail(resultSet.getString("email"));
             student.setPhone(resultSet.getString("phone"));
             student.setClassId(resultSet.getInt("class_id"));
@@ -139,4 +140,20 @@ public class AdminModel {
         }
         return null;
     }
+
+    public Admin findUserAdmin(String username, String password) throws SQLException {
+        String sql = "SELECT * from admin";
+        PreparedStatement ps = this.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            String usernameDB = rs.getString("code");
+            String passwordDB = rs.getString("password");
+            if (username.equals(usernameDB) && password.equals(passwordDB)) {
+                String name = rs.getString("name");
+                return new Admin(name,usernameDB,passwordDB);
+            }
+        }
+        return null;
+    }
+
 }

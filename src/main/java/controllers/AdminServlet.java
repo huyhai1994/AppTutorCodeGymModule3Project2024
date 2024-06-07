@@ -136,7 +136,7 @@ public class AdminServlet extends HttpServlet {
         student.setCode(code);
         student.setPassword(password);
         student.setGender(gender);
-        student.setBirthOfDate(Date.valueOf(birthOfDate));
+        student.setBirthOfDate(birthOfDate);
         student.setEmail(email);
         student.setPhone(phone);
         student.setClassId(classId);
@@ -162,7 +162,7 @@ public class AdminServlet extends HttpServlet {
         student.setCode(code);
         student.setPassword(password);
         student.setGender(gender);
-        student.setBirthOfDate(Date.valueOf(birthOfDate));
+        student.setBirthOfDate(birthOfDate);
         student.setEmail(email);
         student.setPhone(phone);
         student.setClassId(classId);

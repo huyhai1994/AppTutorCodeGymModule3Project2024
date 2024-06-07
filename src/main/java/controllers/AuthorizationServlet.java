@@ -1,5 +1,7 @@
 package controllers;
 
+import services.AuthozirationService;
+
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,46 +11,42 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 
 
 @WebServlet(name = "AuthorizationServlet", urlPatterns = ControllersUrl.AUTHORIZATION)
 public class AuthorizationServlet extends HttpServlet {
+    private AuthozirationService authozirationService;
+
 
     @Override
     public void init(ServletConfig config) throws ServletException {
+        this.authozirationService = new AuthozirationService();
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setCharacterEncoding("utf-8");
+        String url = req.getPathInfo();
+        switch (url) {
+            case "/login":
+                this.authozirationService.renderPageLogin(req, resp);
+                break;
+        }
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        // Lấy thông tin người dùng và mật khẩu từ request
-        String username = req.getParameter("username");
-        String password = req.getParameter("password");
-        String action = req.getParameter("action");
-
-        HttpSession session = req.getSession();
-        resp.setContentType("text/html");
-        PrintWriter out = resp.getWriter();
-
-        if ("login".equals(action)) {
-            // Kiểm tra thông tin đăng nhập (ở đây đơn giản kiểm tra tĩnh, bạn có thể kết nối DB để kiểm tra)
-            if ("admin".equals(username) && "password".equals(password)) {
-                // Đăng nhập thành công
-                session.setAttribute("username", username);
-            } else {
-                // Đăng nhập thất bại
-                out.println("<html><body>");
-                out.println("<h3>Invalid username or password</h3>");
-                out.println("<a href='/authorization/login.jsp'>Try again</a>");
-                out.println("</body></html>");
-            }
-        } else if ("logout".equals(action)) {
-            // Xử lý đăng xuất
-            session.invalidate();
-            resp.sendRedirect("/authorization/login.jsp");
+        req.setCharacterEncoding("utf-8");
+        String url = req.getPathInfo();
+        switch (url) {
+            case "/login":
+                try {
+                    this.authozirationService.login(req, resp);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+                break;
         }
     }
 }

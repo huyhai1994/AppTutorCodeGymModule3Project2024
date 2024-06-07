@@ -1,7 +1,5 @@
 package entity;
 
-import java.sql.Date;
-
 public  abstract class User{
     protected String name;
     protected String email;
@@ -10,6 +8,17 @@ public  abstract class User{
     protected String birthOfDate;
     protected String gender;
     protected String phone;
+
+    public User() {
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public String getEmail() {
         return email;
@@ -39,8 +48,8 @@ public  abstract class User{
         return birthOfDate;
     }
 
-    public void setBirthOfDate(Date birthOfDate) {
-        this.birthOfDate = String.valueOf(birthOfDate);
+    public void setBirthOfDate(String birthOfDate) {
+        this.birthOfDate = birthOfDate;
     }
 
     public String getGender() {
@@ -57,16 +66,5 @@ public  abstract class User{
 
     public void setPhone(String phone) {
         this.phone = phone;
-    }
-
-    public User() {
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 }
