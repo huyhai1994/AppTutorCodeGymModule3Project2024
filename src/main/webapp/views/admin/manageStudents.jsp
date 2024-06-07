@@ -267,7 +267,7 @@
     </div>
 </div>
 <div class="container-fluid footer">
-    <div class="row p-3 text-white">
+    <div class="row p-3 text-dark">
         <div class="col-md-3">
             <h4 class="widget-title">HÀ NỘI</h4>
             <div class="text-widget">

@@ -26,7 +26,7 @@ public class AdminModel {
 
 
     public ResultSet getAllClasses() throws SQLException {
-        String query = "SELECT * FROM class";
+        String query = "SELECT `id`,`code`,`name`,`startday`,`endday` FROM class";
         PreparedStatement preparedStatement = connection.prepareStatement(query);
         return preparedStatement.executeQuery();
     }
