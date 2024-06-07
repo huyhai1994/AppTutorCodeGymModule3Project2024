@@ -57,7 +57,8 @@ public class AuthozirationService {
         String email = req.getParameter("email");
         String phone = req.getParameter("phone");
         int classId = Integer.parseInt(req.getParameter("classId"));
-        this.adminModel.addStudent(name,code,password,gender,birthdate,email,phone,classId);
+        Student student = new Student(name,code,password,gender,birthdate,email,phone,classId);
+        this.adminModel.addStudent(student);
         resp.sendRedirect("/login/student");
     }
 

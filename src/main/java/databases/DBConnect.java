@@ -12,7 +12,7 @@ public class DBConnect {
     public DBConnect() {
     }
 
-    public Connection getConnection() {
+    public static Connection getConnection() {
         Connection connection = null;
         try {
             Class.forName("com.mysql.jdbc.Driver");

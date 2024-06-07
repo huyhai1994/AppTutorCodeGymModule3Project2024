@@ -1,44 +1,37 @@
 package entity;
 
-public class Student extends User{
-    int id;
-    int classId;
+public class Student extends User {
+    private int id;
+    private int classId;
 
-    public Student(){
+    public Student() {
     }
 
-    public Student(String name, String email, String password, String code, String birthOfDate, String gender, String phone, String studentId, String major) {
+    public Student(String name, String code, String password, String gender, String birthdate, String email, String phone, int classId) {
         this.name = name;
-        this.email = email;
+        this.code = code;
         this.password = password;
-        this.code = code;
-        this.birthOfDate = birthOfDate;
         this.gender = gender;
+        this.birthOfDate = birthdate;
+        this.email = email;
         this.phone = phone;
+        this.classId = classId;
     }
 
-    public Student (String name,String code , String password){
-        this.name = name;
-        this.code = code;
-        this.password =  password;
+    public int getId() {
+        return id;
     }
 
-    public Student(String name, String usernameDB, String passwordDB, String genderDB, String phoneDB, String emailDB, String birthOfDateDB, int classDB) {
-        this.name = name;
-        this.code = usernameDB;
-        this.password =  passwordDB;
-        this.gender = genderDB;
-        this.phone = phoneDB;
-        this.email = emailDB;
-        this.birthOfDate = birthOfDateDB;
-        this.classId = classDB;
+    public void setId(int id) {
+        this.id = id;
     }
 
+    public int getClassId() {
+        return classId;
+    }
 
-    /**
-     * Hoc sinh dang theo hoc tai trung tam gia su
-     *
-     * */
-
+    public void setClassId(int classId) {
+        this.classId = classId;
+    }
 
 }

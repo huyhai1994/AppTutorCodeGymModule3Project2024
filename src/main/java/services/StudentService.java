@@ -1,5 +1,6 @@
 package services;
 
+import entity.Student;
 import models.StudentModel;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +13,14 @@ public class StudentService {
 
     public StudentService() {
         this.studentModel = new StudentModel();
+    }
+
+    public Student getStudentById(int id) {
+        return studentModel.getStudentById(id);
+    }
+
+    public boolean changePassword(int studentId, String currentPassword, String newPassword) {
+        return studentModel.changePassword(studentId, currentPassword, newPassword);
     }
 
     public void editPass(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
