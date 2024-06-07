@@ -19,6 +19,7 @@ public class AdminServlet extends HttpServlet {
     public static final String DASHBOARD = "/dashboard";
     public static final String MANAGE_STUDENTS = "/manage-students";
     public static final String MANAGE_GROUPS = "/manage-groups";
+    public static final String UTF_8 = "utf-8";
     private AdminService adminService;
 
     public void init() {
@@ -27,7 +28,7 @@ public class AdminServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getPathInfo();
-        request.setCharacterEncoding("utf-8");
+        request.setCharacterEncoding(UTF_8);
 
         switch (action) {
             case DASHBOARD:
@@ -82,7 +83,7 @@ public class AdminServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getPathInfo();
-        request.setCharacterEncoding("utf-8");
+        request.setCharacterEncoding(UTF_8);
 
         if (action.equals("/manage-students")) {
             String studentAction = request.getParameter("studentAction");

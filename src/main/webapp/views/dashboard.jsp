@@ -1,19 +1,18 @@
-<%@ page import="java.sql.ResultSet" %>
+<%@ page import="controllers.ControllersUrl" %>
 <%@ page import="models.AdminModel" %>
-<%@ page import="databases.DBConnect" %>
+<%@ page import="java.sql.ResultSet" %>
 <%@ page import="java.sql.SQLException" %><%--
   Created by IntelliJ IDEA.
   User: Ha Duy Nam
   Date: 05-Jun-24
-  Time: 10:25 PM
+  Time: 10:23 PM
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style.css">
-</head>
 <html>
 <head>
-    <title>Title</title>
+    <meta charset="UTF-8">
     <title>admin</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -21,7 +20,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
 <body>
-
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
@@ -41,82 +39,64 @@
                  width="100%" height="auto">
         </div>
         <div class="col-md-7">
-            <h3 class="text-center">Quản Lý Danh Sách Lớp Học</h3>
+            <h3 class="text-center">Quản Trị Viên</h3>
         </div>
-        <div class="row col-md-3">
-            <div class="container-fluid">
-                <div class="row">
-                    <nav class="navbar navbar-expand-lg">
-                        <form action="#" class="d-flex" role="search" method="post">
-                            <input class="form-control me-2 w-100" type="search" placeholder="Nhập Mã Sinh Viên"
-                                   aria-label="Search">
-                            <button class="btn btn-outline-success mx-2 " type="submit"><i
-                                    class="fa-solid fa-magnifying-glass"></i></button>
-                        </form>
-                        <button type="button" class="btn btn-primary"><i class="fa-solid fa-user-plus"></i> Thêm mới
-                        </button>
-                    </nav>
-                </div>
-            </div>
+        <div class="col-md-3">
+            <nav class="navbar navbar-expand-lg">
+                <form class="d-flex" role="search">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success " type="submit">Search</button>
+                </form>
+            </nav>
         </div>
     </div>
     <div class="row">
         <div class="col-md-2">
             <div class="list-group">
-                <a href="#" class="list-group-item list-group-item-action" aria-current="true">
+                <a href="#" class="list-group-item list-group-item-action active" aria-current="true">
                     Quản Trị Viên
                 </a>
                 <a href="#" class="list-group-item list-group-item-action">Sinh Viên</a>
-                <a href="#" class="list-group-item list-group-item-action active">Lớp Học</a>
+                <a href="#" class="list-group-item list-group-item-action">Lớp Học</a>
             </div>
         </div>
         <div class="col-md-10">
-            <table class="table table-bordered table-hover text-center">
+            <table class="table table-bordered table-hover">
                 <thead>
                 <tr>
-                    <th>
+                    <th width="100px">
                         #
                     </th>
-                    <th>
+                    <th width="200px">
                         Mã Lớp
                     </th>
-                    <th>
+                    <th width="200px">
                         Tên Lớp
                     </th>
-                    <th>
-                        Ngày Bắt Đầu
-                    </th>
-                    <th>
-                        Ngày Kết Thúc
-                    </th>
-                    <th width="150px">
-                        Thao Tác
+                    <th width="200px">
+                        Số Lượng Sinh Viên
                     </th>
                 </tr>
+                <c:set var="i" value="1"/>
                 <%
-                    // Lấy danh sách lớp từ cơ sở dữ liệu và hiển thị
                     try {
-                        ResultSet rs = new AdminModel().getAllClasses();
+                        ResultSet rs = new AdminModel().getDashBoard();
                         while (rs.next()) {
                 %>
                 </thead>
                 <tbody>
-                <tr>
-                    <td><%= rs.getInt("id") %>
-                    </td>
-                    <td><%= rs.getString("code") %>
-                    </td>
-                    <td><%= rs.getString("name") %>
-                    </td>
-                    <td><%= rs.getString("startday") %>
-                    </td>
-                    <td><%= rs.getString("endday") %>
-                    </td>
-                    <td>
-                        <button type="button" class="btn btn-success"><i class="fa-solid fa-user-pen"></i></button>
-                        <button type="button" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button>
-                    </td>
-                </tr>
+                <td><%=rs.getInt("id")%>
+                </td>
+                <td>
+                    <%=rs.getString("code")%>
+                </td>
+                <td>
+                    <%=rs.getString("name")%>
+                </td>
+                <td>
+                    <%=rs.getInt("number")%>
+                </td>
+                <c:set var="i" value="${i+1}"/>
                 </tbody>
                 <%
                         }
@@ -128,7 +108,6 @@
         </div>
     </div>
 </div>
-<hr>
 <!--Footer-->
 <div class="container-fluid footer">
     <div class="row p-3 text-white">
@@ -180,5 +159,5 @@
         integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
         crossorigin="anonymous"></script>
 </body>
-
 </html>
+

@@ -24,6 +24,16 @@ public class AdminModel {
         return preparedStatement.executeQuery();
     }
 
+    public ResultSet getDashBoard() throws SQLException {
+        String query = "call get_admin()";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        try {
+            return preparedStatement.executeQuery();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
     public ResultSet getAllClasses() throws SQLException {
         String query = "SELECT `id`,`code`,`name`,`startday`,`endday` FROM class";
