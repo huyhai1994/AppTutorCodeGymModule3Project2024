@@ -17,7 +17,7 @@
 </head>
 <body>
 <h1>Manage Classes</h1>
-<form action="<%=request.getContextPath()%>/admin/manage-classes" method="post">
+<form action="<%=request.getContextPath()%>/admin/manage-groups" method="post">
     <input type="hidden" name="classAction" value="add">
     <input type="text" name="code" placeholder="Class Code">
     <input type="text" name="name" placeholder="Class Name">
@@ -38,20 +38,23 @@
     <%
         // Lấy danh sách lớp từ cơ sở dữ liệu và hiển thị
         try {
-            ResultSet rs = new AdminModel(DBConnect.getConnection()).getAllClasses();
-            while(rs.next()) {
+            ResultSet rs = new AdminModel().getAllClasses();
+            while (rs.next()) {
     %>
     <tr>
-        <td><%= rs.getInt("id") %></td>
-        <td><%= rs.getString("code") %></td>
-        <td><%= rs.getString("name") %></td>
+        <td><%= rs.getInt("id") %>
+        </td>
+        <td><%= rs.getString("code") %>
+        </td>
+        <td><%= rs.getString("name") %>
+        </td>
         <td>
-            <form action="<%=request.getContextPath()%>/admin/manage-classes" method="post" style="display:inline;">
+            <form action="<%=request.getContextPath()%>/admin/manage-groups" method="post" style="display:inline;">
                 <input type="hidden" name="classAction" value="edit">
                 <input type="hidden" name="id" value="<%= rs.getInt("id") %>">
                 <button type="submit">Edit</button>
             </form>
-            <form action="<%=request.getContextPath()%>/admin/manage-classes" method="post" style="display:inline;">
+            <form action="<%=request.getContextPath()%>/admin/manage-groups" method="post" style="display:inline;">
                 <input type="hidden" name="classAction" value="delete">
                 <input type="hidden" name="id" value="<%= rs.getInt("id") %>">
                 <button type="submit">Delete</button>

@@ -1,9 +1,7 @@
 package controllers;
 
-import databases.DBConnect;
 import entity.Group;
 import entity.Student;
-import models.AdminModel;
 import services.AdminService;
 import services.ServiceUrl;
 
@@ -13,13 +11,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.Connection;
 import java.sql.Date;
+import java.sql.SQLException;
 
 @WebServlet(name = "AdminServlet", urlPatterns = "/admin/*")
 public class AdminServlet extends HttpServlet {
     public static final String DASHBOARD = "/dashboard";
     public static final String MANAGE_STUDENTS = "/manage-students";
+    public static final String MANAGE_GROUPS = "/manage-groups";
     private AdminService adminService;
 
     public void init() {
@@ -32,19 +31,17 @@ public class AdminServlet extends HttpServlet {
 
         switch (action) {
             case DASHBOARD:
-                //TODO: Vao trang dashboard cua quan tri vien (ok)
                 request.getRequestDispatcher(ServiceUrl.DASHBOARD_JSP).forward(request, response);
                 break;
             case MANAGE_STUDENTS:
-                //TODO: Vao trang danh sach sinh vien (no ok), nguyen nhan dieu huong sai
-                System.out.println("vao trang /manage-students");
-                request.setAttribute("students", adminService.getAllStudents());
-                request.getRequestDispatcher("/views/admin/manageStudents.jsp").forward(request, response);
+                try {
+                    this.adminService.renderPageManageStudents(request, response);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
                 break;
-            case "/manage-classes":
-                //TODO: Vao trang danh sach lop hoc (no ok)
-                request.setAttribute("groups", adminService.getAllGroups());
-                request.getRequestDispatcher("/views/admin/manageClasses.jsp").forward(request, response);
+            case MANAGE_GROUPS:
+                this.adminService.renderPageManageGroups(request, response);
                 break;
             case "/edit-student":
                 //TODO: Vao Trang Sua  Hoc Sinh (no ok)
@@ -104,7 +101,7 @@ public class AdminServlet extends HttpServlet {
                 }
             }
             response.sendRedirect(request.getContextPath() + "/admin/manage-students");
-        } else if (action.equals("/manage-classes")) {
+        } else if (action.equals("/manage-groups")) {
             String classAction = request.getParameter("classAction");
             if (classAction != null) {
                 switch (classAction) {
@@ -119,7 +116,7 @@ public class AdminServlet extends HttpServlet {
                         break;
                 }
             }
-            response.sendRedirect(request.getContextPath() + "/admin/manage-classes");
+            response.sendRedirect(request.getContextPath() + "/admin/manage-groups");
         }
     }
 
@@ -185,7 +182,6 @@ public class AdminServlet extends HttpServlet {
         String startDay = request.getParameter("startday");
         String endDay = request.getParameter("endday");
         int adminId = Integer.parseInt(request.getParameter("admin_id"));
-
         Group classObj = new Group();
         classObj.setCode(code);
         classObj.setName(name);

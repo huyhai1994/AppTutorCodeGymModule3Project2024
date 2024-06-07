@@ -30,7 +30,8 @@
     Code: <input type="text" name="code" value="<%= student != null ? student.getCode() : "" %>"/><br/>
     Password: <input type="password" name="password" value="<%= student != null ? student.getPassword() : "" %>"/><br/>
     Gender: <input type="text" name="gender" value="<%= student != null ? student.getGender() : "" %>"/><br/>
-    Birth Date: <input type="date" name="birthofdate" value="<%= student != null ? student.getBirthOfDate() : "" %>"/><br/>
+    Birth Date: <input type="date" name="birthofdate"
+                       value="<%= student != null ? student.getBirthOfDate() : "" %>"/><br/>
     Email: <input type="email" name="email" value="<%= student != null ? student.getEmail() : "" %>"/><br/>
     Phone: <input type="text" name="phone" value="<%= student != null ? student.getPhone() : "" %>"/><br/>
     Class ID: <input type="number" name="class_id" value="<%= student != null ? student.getClassId() : "" %>"/><br/>
@@ -40,7 +41,7 @@
     Group group = (Group) request.getAttribute("group");
 %>
 <h2><%= "Add".equals(action) ? "Add" : "Edit" %> Group</h2>
-<form action="<%= request.getContextPath() %>/admin/manage-classes" method="post">
+<form action="<%= request.getContextPath() %>/admin/manage-groups" method="post">
     <input type="hidden" name="classAction" value="<%= action %>"/>
     <% if (!"add".equals(action)) { %>
     <input type="hidden" name="id" value="<%= group.getId() %>"/>

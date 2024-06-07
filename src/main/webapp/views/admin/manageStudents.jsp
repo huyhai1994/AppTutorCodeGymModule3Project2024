@@ -1,7 +1,8 @@
 <%@ page import="java.sql.ResultSet" %>
 <%@ page import="models.AdminModel" %>
 <%@ page import="databases.DBConnect" %>
-<%@ page import="java.sql.SQLException" %><%--
+<%@ page import="java.sql.SQLException" %>
+<%@ page import="controllers.ControllersUrl" %><%--
   Created by IntelliJ IDEA.
   User: Ha Duy Nam
   Date: 05-Jun-24
@@ -36,22 +37,19 @@
         <th>Code</th>
         <th>Actions</th>
     </tr>
-    <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Code</th>
-        <th>Actions</th>
-    </tr>
     <%
         // Lấy danh sách sinh viên từ cơ sở dữ liệu và hiển thị
         try {
-            ResultSet rs = new AdminModel(DBConnect.getConnection()).getAllStudents();
-            while(rs.next()) {
+            ResultSet rs = new AdminModel().getAllStudents();
+            while (rs.next()) {
     %>
     <tr>
-        <td><%= rs.getInt("id") %></td>
-        <td><%= rs.getString("name") %></td>
-        <td><%= rs.getString("code") %></td>
+        <td><%= rs.getInt("id") %>
+        </td>
+        <td><%= rs.getString("name") %>
+        </td>
+        <td><%= rs.getString("code") %>
+        </td>
         <td>
             <form action="<%=request.getContextPath()%>/admin/manage-students" method="post" style="display:inline;">
                 <input type="hidden" name="studentAction" value="edit">
@@ -68,10 +66,10 @@
     <%
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Loi o class manageStudents.jsp loi = " + e.getErrorCode());
         }
     %>
 </table>
-<a href="${pageContext.request.contextPath}/admin/dashboard">Back to Dashboard</a>
+<a href=<%=ControllersUrl.ADMIN_DASHBOARD%>>Back to Dashboard</a>
 </body>
 </html>

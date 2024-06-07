@@ -1,4 +1,4 @@
-<%--
+<%@ page import="controllers.ControllersUrl" %><%--
   Created by IntelliJ IDEA.
   User: Ha Duy Nam
   Date: 05-Jun-24
@@ -15,8 +15,8 @@
 <h1>Admin Dashboard</h1>
 <nav>
     <ul>
-        <li><a href="/admin/manage-students">Manage Students</a></li>
-        <li><a href="/admin/manage-classes">Manage Classes</a></li>
+        <li><a href= <%= ControllersUrl.MANAGE_STUDENTS%>> Manage Students</a></li>
+        <li><a href= <%= ControllersUrl.MANAGE_GROUPS%>> Manage Classes</a></li>
     </ul>
 </nav>
 <p>Welcome to the admin dashboard!</p>

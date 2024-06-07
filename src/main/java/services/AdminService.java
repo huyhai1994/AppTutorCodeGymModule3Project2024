@@ -13,6 +13,7 @@ import java.sql.SQLException;
 
 public class AdminService {
 
+
     private AdminModel adminModel;
 
     public AdminService() {
@@ -24,23 +25,20 @@ public class AdminService {
             adminModel.addStudent(student);
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(e.getErrorCode());
         }
     }
 
     public void editStudent(HttpServletRequest request, HttpServletResponse response, Student student) {
         try {
-            System.out.println("3. ban da vao admin service de edit student");
             adminModel.editStudent(student);
             request.setAttribute("student", student);
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("views/admin/edit.jsp");
             requestDispatcher.forward(request, response);
 
         } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ServletException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
+            System.out.println(e.getErrorCode());
+        } catch (ServletException | IOException e) {
             throw new RuntimeException(e);
         }
     }
@@ -100,12 +98,23 @@ public class AdminService {
         return null;
     }
 
-    public Object getAllStudents() {
-        return null;
+
+    public void renderPageManageStudents(HttpServletRequest request, HttpServletResponse response) throws SQLException {
+        RequestDispatcher out = request.getRequestDispatcher(ServiceUrl.MANAGE_STUDENTS);
+        try {
+            out.forward(request, response);
+        } catch (ServletException | IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public Object getAllGroups() {
-        return null;
+    public void renderPageManageGroups(HttpServletRequest request, HttpServletResponse response) {
+        RequestDispatcher out = request.getRequestDispatcher(ServiceUrl.MANAGE_GROUPS);
+        try {
+            out.forward(request, response);
+        } catch (ServletException | IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
 

@@ -8,20 +8,22 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 public class AdminModel {
     private Connection connection;
 
     public AdminModel() {
         DBConnect dbConnect = new DBConnect();
-        this.connection = dbConnect.getConnection();
+        this.connection = DBConnect.getConnection();
     }
 
     public ResultSet getAllStudents() throws SQLException {
-        String query = "SELECT * FROM student";
+        String query = "call get_all_students()";
         PreparedStatement preparedStatement = connection.prepareStatement(query);
         return preparedStatement.executeQuery();
     }
+
 
     public ResultSet getAllClasses() throws SQLException {
         String query = "SELECT * FROM class";
@@ -49,10 +51,9 @@ public class AdminModel {
         preparedStatement.setInt(1, student.getClassId());
         preparedStatement.setString(2, student.getName());
         preparedStatement.executeUpdate();
-//        return preparedStatement.executeUpdate() > 0;
     }
 
-    public boolean deleteStudent(int classId,String code) throws SQLException {
+    public boolean deleteStudent(int classId, String code) throws SQLException {
         String query = "call edit_student(?,?)";
         PreparedStatement preparedStatement = connection.prepareStatement(query);
         preparedStatement.setInt(1, classId);
