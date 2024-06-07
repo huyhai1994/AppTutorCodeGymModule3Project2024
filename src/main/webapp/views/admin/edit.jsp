@@ -1,104 +1,57 @@
-<%@ page import="services.AdminService" %>
-<%@ page import="models.AdminModel" %>
 <%@ page import="entity.Student" %>
 <%@ page import="entity.Group" %><%--
   Created by IntelliJ IDEA.
   User: Ha Duy Nam
   Date: 06-Jun-24
-  Time: 5:10 PM
+  Time: 9:27 PM
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%
-  String action = request.getParameter("action");
-  String entityType = request.getParameter("entityType");
-  AdminService adminService = new AdminService(new AdminModel(new databases.DBConnect().getConnection()));
-
-  if (entityType.equals("student")) {
-    int id = Integer.parseInt(request.getParameter("id"));
-    Student student = adminService.getStudentById(id);
-%>
-
 <html>
 <head>
-    <title>Title</title>
+    <title>Edit</title>
 </head>
 <body>
-<h1>Edit Student</h1>
-<form action="${pageContext.request.contextPath}/admin/manage-students" method="post">
-  <input type="hidden" name="studentAction" value="edit">
-  <input type="hidden" name="id" value="<%= student.getId() %>">
-
-  <label for="name">Name:</label>
-  <input type="text" id="name" name="name" value="<%= student.getName() %>" required>
-
-  <label for="code">Code:</label>
-  <input type="text" id="code" name="code" value="<%= student.getCode() %>" required>
-
-  <label for="password">Password:</label>
-  <input type="password" id="password" name="password" value="<%= student.getPassword() %>" required>
-
-  <label for="gender">Gender:</label>
-  <input type="text" id="gender" name="gender" value="<%= student.getGender() %>" required>
-
-  <label for="birthofdate">Birthdate:</label>
-  <input type="date" id="birthofdate" name="birthofdate" value="<%= student.getBirthOfDate() %>" required>
-
-  <label for="email">Email:</label>
-  <input type="email" id="email" name="email" value="<%= student.getEmail() %>" required>
-
-  <label for="phone">Phone:</label>
-  <input type="text" id="phone" name="phone" value="<%= student.getPhone() %>" required>
-
-  <label for="class_id">Class ID:</label>
-  <input type="text" id="class_id" name="class_id" value="<%= student.getClassId() %>" required>
-
-  <button type="submit">Save Changes</button>
-</form>
-<a href="${pageContext.request.contextPath}/admin/manage-students">Back to Manage Students</a>
-</body>
-</html>
-
 <%
-} else if (entityType.equals("group")) {
-  int id = Integer.parseInt(request.getParameter("id"));
-  Group group = adminService.getGroupById(id);
+    String action = (String) request.getAttribute("action");
+    String entityType = (String) request.getAttribute("entityType");
 %>
 
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <title>Edit Group</title>
-  <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style.css">
-</head>
-<body>
-<h1>Edit Group</h1>
-<form action="${pageContext.request.contextPath}/admin/manage-classes" method="post">
-  <input type="hidden" name="classAction" value="edit">
-  <input type="hidden" name="id" value="<%= group.getId() %>">
-
-  <label for="code">Code:</label>
-  <input type="text" id="code" name="code" value="<%= group.getCode() %>" required>
-
-  <label for="name">Name:</label>
-  <input type="text" id="name" name="name" value="<%= group.getName() %>" required>
-
-  <label for="startday">Start Day:</label>
-  <input type="date" id="startday" name="startday" value="<%= group.getStartDay() %>" required>
-
-  <label for="endday">End Day:</label>
-  <input type="date" id="endday" name="endday" value="<%= group.getEndDay() %>" required>
-
-  <label for="admin_id">Admin ID:</label>
-  <input type="text" id="admin_id" name="admin_id" value="<%= group.getAdminId() %>" required>
-
-  <button type="submit">Save Changes</button>
+<% if ("student".equals(entityType)) {
+    Student student = (Student) request.getAttribute("student");
+%>
+<h2><%= "Add".equals(action) ? "Add" : "Edit" %> Student</h2>
+<form action="<%= request.getContextPath() %>/admin/manage-students" method="post">
+    <input type="hidden" name="studentAction" value="<%= action %>"/>
+    <% if (!"add".equals(action)) { %>
+    <input type="hidden" name="id" value="<%= student.getId() %>"/>
+    <% } %>
+    Name: <input type="text" name="name" value="<%= student != null ? student.getName() : "" %>"/><br/>
+    Code: <input type="text" name="code" value="<%= student != null ? student.getCode() : "" %>"/><br/>
+    Password: <input type="password" name="password" value="<%= student != null ? student.getPassword() : "" %>"/><br/>
+    Gender: <input type="text" name="gender" value="<%= student != null ? student.getGender() : "" %>"/><br/>
+    Birth Date: <input type="date" name="birthofdate" value="<%= student != null ? student.getBirthOfDate() : "" %>"/><br/>
+    Email: <input type="email" name="email" value="<%= student != null ? student.getEmail() : "" %>"/><br/>
+    Phone: <input type="text" name="phone" value="<%= student != null ? student.getPhone() : "" %>"/><br/>
+    Class ID: <input type="number" name="class_id" value="<%= student != null ? student.getClassId() : "" %>"/><br/>
+    <input type="submit" value="Save"/>
 </form>
-<a href="${pageContext.request.contextPath}/admin/manage-classes">Back to Manage Classes</a>
+<% } else if ("group".equals(entityType)) {
+    Group group = (Group) request.getAttribute("group");
+%>
+<h2><%= "Add".equals(action) ? "Add" : "Edit" %> Group</h2>
+<form action="<%= request.getContextPath() %>/admin/manage-classes" method="post">
+    <input type="hidden" name="classAction" value="<%= action %>"/>
+    <% if (!"add".equals(action)) { %>
+    <input type="hidden" name="id" value="<%= group.getId() %>"/>
+    <% } %>
+    Code: <input type="text" name="code" value="<%= group != null ? group.getCode() : "" %>"/><br/>
+    Name: <input type="text" name="name" value="<%= group != null ? group.getName() : "" %>"/><br/>
+    Start Day: <input type="date" name="startday" value="<%= group != null ? group.getStartDay() : "" %>"/><br/>
+    End Day: <input type="date" name="endday" value="<%= group != null ? group.getEndDay() : "" %>"/><br/>
+    Admin ID: <input type="number" name="admin_id" value="<%= group != null ? group.getAdminId() : "" %>"/><br/>
+    <input type="submit" value="Save"/>
+</form>
+<% } %>
 </body>
 </html>
-
-<%
-  }
-%>

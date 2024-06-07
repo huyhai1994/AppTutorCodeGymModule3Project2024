@@ -17,36 +17,66 @@ import java.sql.Date;
 
 @WebServlet(name = "AdminServlet", urlPatterns = "/admin/*")
 public class AdminServlet extends HttpServlet {
-    private AdminService adminService = new AdminService();
+    private AdminService adminService;
     public void init() {
         DBConnect dbConnect = new DBConnect();
         Connection connection = dbConnect.getConnection();
-        this.adminService = new AdminService(new AdminModel(connection));
+        this.adminService = new AdminService();
+        System.out.println("khoi tao Servlet AdminServlet");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getPathInfo();
         request.setCharacterEncoding("utf-8");
-        if (action.equals("/dashboard")) {
-            request.getRequestDispatcher("/views/admin/dashboard.jsp").forward(request, response);
-        } else if (action.equals("/manage-students")) {
-            request.getRequestDispatcher("/views/admin/manageStudents.jsp").forward(request, response);
-        } else if (action.equals("/manage-classes")) {
-            request.getRequestDispatcher("/views/admin/manageClasses.jsp").forward(request, response);
-        } else if (action.equals("/edit-student")) {
-            request.setAttribute("action", "edit");
-            request.setAttribute("entityType", "student");
-            request.getRequestDispatcher("/views/admin/edit.jsp").forward(request, response);
-        } else if (action.equals("/edit-group")) {
-            request.setAttribute("action", "edit");
-            request.setAttribute("entityType", "group");
-            request.getRequestDispatcher("/views/admin/edit.jsp").forward(request, response);
+
+        switch (action) {
+            case "/dashboard":
+                request.getRequestDispatcher("/views/admin/dashboard.jsp").forward(request, response);
+                break;
+            case "/manage-students":
+                request.setAttribute("students", adminService.getAllStudents());
+                request.getRequestDispatcher("/views/admin/manageStudents.jsp").forward(request, response);
+                break;
+            case "/manage-classes":
+                request.setAttribute("groups", adminService.getAllGroups());
+                request.getRequestDispatcher("/views/admin/manageClasses.jsp").forward(request, response);
+                break;
+            case "/edit-student":
+                int studentId = Integer.parseInt(request.getParameter("id"));
+                Student student = adminService.getStudentById(studentId);
+                request.setAttribute("student", student);
+                request.setAttribute("action", "edit");
+                request.setAttribute("entityType", "student");
+                request.getRequestDispatcher("/views/admin/edit.jsp").forward(request, response);
+                break;
+            case "/edit-group":
+                int groupId = Integer.parseInt(request.getParameter("id"));
+                Group group = adminService.getGroupById(groupId);
+                request.setAttribute("group", group);
+                request.setAttribute("action", "edit");
+                request.setAttribute("entityType", "group");
+                request.getRequestDispatcher("/views/admin/edit.jsp").forward(request, response);
+                break;
+            case "/add-student":
+                request.setAttribute("action", "add");
+                request.setAttribute("entityType", "student");
+                request.getRequestDispatcher("/views/admin/edit.jsp").forward(request, response);
+                break;
+            case "/add-group":
+                request.setAttribute("action", "add");
+                request.setAttribute("entityType", "group");
+                request.getRequestDispatcher("/views/admin/edit.jsp").forward(request, response);
+                break;
+            default:
+                response.sendError(HttpServletResponse.SC_NOT_FOUND);
+                break;
         }
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getPathInfo();
         request.setCharacterEncoding("utf-8");
+
         if (action.equals("/manage-students")) {
             String studentAction = request.getParameter("studentAction");
             if (studentAction != null) {
@@ -55,7 +85,7 @@ public class AdminServlet extends HttpServlet {
                         addStudent(request, response);
                         break;
                     case "edit":
-                        System.out.println("Here edit");
+                        System.out.println("1. ban vua an vao edit cua quan ly sinh vien trong post");
                         editStudent(request, response);
                         break;
                     case "delete":
@@ -103,10 +133,11 @@ public class AdminServlet extends HttpServlet {
         student.setPhone(phone);
         student.setClassId(classId);
 
-        adminService.addStudent(student);
+        adminService.addStudent(request, response,student);
     }
 
     private void editStudent(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        System.out.println("2. method edit Student cua AdminServlet");
         int id = Integer.parseInt(request.getParameter("id"));
         String name = request.getParameter("name");
         String code = request.getParameter("code");
@@ -128,12 +159,14 @@ public class AdminServlet extends HttpServlet {
         student.setPhone(phone);
         student.setClassId(classId);
 
-        adminService.editStudent(student);
+
+        adminService.editStudent(request, response,student);
     }
 
     private void deleteStudent(HttpServletRequest request, HttpServletResponse response) throws IOException {
         int id = Integer.parseInt(request.getParameter("id"));
-        adminService.deleteStudent(id);
+        String code = request.getParameter("code");
+        adminService.deleteStudent(id, code);
     }
 
     private void addGroup(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -146,8 +179,8 @@ public class AdminServlet extends HttpServlet {
         Group classObj = new Group();
         classObj.setCode(code);
         classObj.setName(name);
-        classObj.setStartDay(String.valueOf(startDay));
-        classObj.setEndDay(String.valueOf(endDay));
+        classObj.setStartDay(Date.valueOf(startDay).toString());
+        classObj.setEndDay(Date.valueOf(endDay).toString());
         classObj.setAdminId(adminId);
 
         adminService.addGroup(classObj);
@@ -165,8 +198,8 @@ public class AdminServlet extends HttpServlet {
         classObj.setId(id);
         classObj.setCode(code);
         classObj.setName(name);
-        classObj.setStartDay(String.valueOf(startDay));
-        classObj.setEndDay(String.valueOf(endDay));
+        classObj.setStartDay(Date.valueOf(startDay).toString());
+        classObj.setEndDay(Date.valueOf(endDay).toString());
         classObj.setAdminId(adminId);
 
         adminService.editGroup(classObj);

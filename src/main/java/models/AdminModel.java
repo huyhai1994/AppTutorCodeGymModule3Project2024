@@ -27,8 +27,8 @@ public class AdminModel {
         return preparedStatement.executeQuery();
     }
 
-    public boolean addStudent(Student student) throws SQLException {
-        String query = "INSERT INTO student (name, code, password, gender, birthofdate, email, phone, class_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    public void addStudent(Student student) throws SQLException {
+        String query = "CALL add_student(?,?,?,?,?,?,?,?)";
         PreparedStatement preparedStatement = connection.prepareStatement(query);
         preparedStatement.setString(1, student.getName());
         preparedStatement.setString(2, student.getCode());
@@ -38,21 +38,23 @@ public class AdminModel {
         preparedStatement.setString(6, student.getEmail());
         preparedStatement.setString(7, student.getPhone());
         preparedStatement.setInt(8, student.getClassId());
-        return preparedStatement.executeUpdate() > 0;
+        preparedStatement.executeUpdate();
     }
 
-    public boolean editStudent(Student student) throws SQLException {
+    public void editStudent(Student student) throws SQLException {
         String query = "call edit_student(?,?)";
         PreparedStatement preparedStatement = connection.prepareStatement(query);
         preparedStatement.setInt(1, student.getClassId());
         preparedStatement.setString(2, student.getName());
-        return preparedStatement.executeUpdate() > 0;
+        preparedStatement.executeUpdate();
+//        return preparedStatement.executeUpdate() > 0;
     }
 
-    public boolean deleteStudent(int studentId) throws SQLException {
-        String query = "DELETE FROM student WHERE id=?";
+    public boolean deleteStudent(int classId,String code) throws SQLException {
+        String query = "call edit_student(?,?)";
         PreparedStatement preparedStatement = connection.prepareStatement(query);
-        preparedStatement.setInt(1, studentId);
+        preparedStatement.setInt(1, classId);
+        preparedStatement.setString(2, code);
         return preparedStatement.executeUpdate() > 0;
     }
 

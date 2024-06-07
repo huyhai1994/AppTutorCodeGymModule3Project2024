@@ -1,11 +1,9 @@
 package entity;
 
 public class Student extends User{
-
-    public Student(){}
-
     private int id;
     private int classId;
+    public Student(){}
 
     public int getId() {
         return id;
@@ -22,18 +20,9 @@ public class Student extends User{
     public void setClassId(int classId) {
         this.classId = classId;
     }
-
-    public void setBirthOfDate(String birthOfDate) {
-        this.birthOfDate = birthOfDate;
-    }
-
-    public String getBirthOfDate() {
-        return birthOfDate;
-    }
     /**
      * Hoc sinh dang theo hoc tai trung tam gia su
      *
      * */
-
 
 }
