@@ -15,11 +15,8 @@ public class AdminService {
 
     private AdminModel adminModel;
 
-    public AdminService(AdminModel adminModel) {
-        this.adminModel = adminModel;
-    }
-
     public AdminService() {
+        this.adminModel = new AdminModel();
     }
 
     public void addStudent(HttpServletRequest request, HttpServletResponse response, Student student) {

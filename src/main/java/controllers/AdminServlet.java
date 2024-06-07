@@ -5,6 +5,7 @@ import entity.Group;
 import entity.Student;
 import models.AdminModel;
 import services.AdminService;
+import services.ServiceUrl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,12 +18,12 @@ import java.sql.Date;
 
 @WebServlet(name = "AdminServlet", urlPatterns = "/admin/*")
 public class AdminServlet extends HttpServlet {
+    public static final String DASHBOARD = "/dashboard";
+    public static final String MANAGE_STUDENTS = "/manage-students";
     private AdminService adminService;
+
     public void init() {
-        DBConnect dbConnect = new DBConnect();
-        Connection connection = dbConnect.getConnection();
         this.adminService = new AdminService();
-        System.out.println("khoi tao Servlet AdminServlet");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -30,18 +31,23 @@ public class AdminServlet extends HttpServlet {
         request.setCharacterEncoding("utf-8");
 
         switch (action) {
-            case "/dashboard":
-                request.getRequestDispatcher("/views/admin/dashboard.jsp").forward(request, response);
+            case DASHBOARD:
+                //TODO: Vao trang dashboard cua quan tri vien (ok)
+                request.getRequestDispatcher(ServiceUrl.DASHBOARD_JSP).forward(request, response);
                 break;
-            case "/manage-students":
+            case MANAGE_STUDENTS:
+                //TODO: Vao trang danh sach sinh vien (no ok), nguyen nhan dieu huong sai
+                System.out.println("vao trang /manage-students");
                 request.setAttribute("students", adminService.getAllStudents());
                 request.getRequestDispatcher("/views/admin/manageStudents.jsp").forward(request, response);
                 break;
             case "/manage-classes":
+                //TODO: Vao trang danh sach lop hoc (no ok)
                 request.setAttribute("groups", adminService.getAllGroups());
                 request.getRequestDispatcher("/views/admin/manageClasses.jsp").forward(request, response);
                 break;
             case "/edit-student":
+                //TODO: Vao Trang Sua  Hoc Sinh (no ok)
                 int studentId = Integer.parseInt(request.getParameter("id"));
                 Student student = adminService.getStudentById(studentId);
                 request.setAttribute("student", student);
@@ -50,6 +56,7 @@ public class AdminServlet extends HttpServlet {
                 request.getRequestDispatcher("/views/admin/edit.jsp").forward(request, response);
                 break;
             case "/edit-group":
+                //TODO: Vao Trang sua Lop Hoc (no ok)
                 int groupId = Integer.parseInt(request.getParameter("id"));
                 Group group = adminService.getGroupById(groupId);
                 request.setAttribute("group", group);
@@ -58,16 +65,19 @@ public class AdminServlet extends HttpServlet {
                 request.getRequestDispatcher("/views/admin/edit.jsp").forward(request, response);
                 break;
             case "/add-student":
+                //TODO: Vao Trang Them Hoc Sinh (no ok)
                 request.setAttribute("action", "add");
                 request.setAttribute("entityType", "student");
                 request.getRequestDispatcher("/views/admin/edit.jsp").forward(request, response);
                 break;
             case "/add-group":
+                //TODO: Vao Trang Them Lop Hoc (no ok)
                 request.setAttribute("action", "add");
                 request.setAttribute("entityType", "group");
                 request.getRequestDispatcher("/views/admin/edit.jsp").forward(request, response);
                 break;
             default:
+                //TODO: Vao Trang bao loi neu ko co truong hop (ok)
                 response.sendError(HttpServletResponse.SC_NOT_FOUND);
                 break;
         }
@@ -133,7 +143,7 @@ public class AdminServlet extends HttpServlet {
         student.setPhone(phone);
         student.setClassId(classId);
 
-        adminService.addStudent(request, response,student);
+        adminService.addStudent(request, response, student);
     }
 
     private void editStudent(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -160,7 +170,7 @@ public class AdminServlet extends HttpServlet {
         student.setClassId(classId);
 
 
-        adminService.editStudent(request, response,student);
+        adminService.editStudent(request, response, student);
     }
 
     private void deleteStudent(HttpServletRequest request, HttpServletResponse response) throws IOException {

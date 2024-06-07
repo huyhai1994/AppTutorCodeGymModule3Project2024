@@ -1,5 +1,6 @@
 package models;
 
+import databases.DBConnect;
 import entity.Group;
 import entity.Student;
 
@@ -11,8 +12,9 @@ import java.sql.SQLException;
 public class AdminModel {
     private Connection connection;
 
-    public AdminModel(Connection connection) {
-        this.connection = connection;
+    public AdminModel() {
+        DBConnect dbConnect = new DBConnect();
+        this.connection = dbConnect.getConnection();
     }
 
     public ResultSet getAllStudents() throws SQLException {
