@@ -1,7 +1,8 @@
 <%@ page import="java.sql.ResultSet" %>
 <%@ page import="models.AdminModel" %>
 <%@ page import="databases.DBConnect" %>
-<%@ page import="java.sql.SQLException" %><%--
+<%@ page import="java.sql.SQLException" %>
+<%@ page import="services.ServiceUrl" %><%--
   Created by IntelliJ IDEA.
   User: Ha Duy Nam
   Date: 05-Jun-24
@@ -9,7 +10,6 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style.css">
 </head>
 <html>
 <head>
@@ -17,7 +17,7 @@
     <title>admin</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../../sty/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
 <body>
@@ -39,6 +39,7 @@
         <div class="col-md-2">
             <img src="https://upload.wikimedia.org/wikipedia/commons/6/68/Logo_FPT_Education.png" alt="logo"
                  width="100%" height="auto">
+            <%//TODO: Thay doi lo go o day%>
         </div>
         <div class="col-md-7">
             <h3 class="text-center">Quản Lý Danh Sách Lớp Học</h3>
@@ -63,11 +64,13 @@
     <div class="row">
         <div class="col-md-2">
             <div class="list-group">
-                <a href="#" class="list-group-item list-group-item-action" aria-current="true">
+                <a href="<%=ServiceUrl.DASHBOARD_JSP%>" class="list-group-item list-group-item-action"
+                   aria-current="true">
                     Quản Trị Viên
                 </a>
-                <a href="#" class="list-group-item list-group-item-action">Sinh Viên</a>
-                <a href="#" class="list-group-item list-group-item-action active">Lớp Học</a>
+                <a href="<%=ServiceUrl.MANAGE_STUDENTS%>>" class="list-group-item list-group-item-action">Sinh Viên</a>
+                <a href="<%=ServiceUrl.MANAGE_GROUPS%>" class="list-group-item list-group-item-action active">Lớp
+                    Học</a>
             </div>
         </div>
         <div class="col-md-10">
@@ -113,6 +116,7 @@
                     <td><%= rs.getString("endday") %>
                     </td>
                     <td>
+                        <% //TODO: gan link vao 2 nut, the a%>
                         <button type="button" class="btn btn-success"><i class="fa-solid fa-user-pen"></i></button>
                         <button type="button" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button>
                     </td>
@@ -135,33 +139,40 @@
         <div class="col-md-3">
             <h4 class="widget-title">HÀ NỘI</h4>
             <div class="text-widget">
-                <p>Khu Giáo dục và Đào tạo – Khu Công nghệ cao Hòa Lạc – Km29 Đại lộ Thăng Long, H. Thạch Thất,
-                    TP. Hà Nội</p>
-                <p>Điện thoại: 024 7300 1866</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam nulla provident quae sequi
+                    temporibus! A, ad cum dolor ex ipsum iste laudantium modi quae. Aut dolor laborum necessitatibus non
+                    quasi!</p>
+                <p>Điện thoại: Lorem ipsum dolor sit amet, consectetur adipisicing elit. Modi, natus optio?</p>
                 <p>Email: daihocbonba@edu.vn</p>
             </div>
         </div>
         <div class="col-md-3">
             <h4 class="widget-title">TP. HỒ CHÍ MINH</h4>
             <div class="text-widget">
-                <p>Lô E2a-7, Đường D1 Khu Công nghệ cao, P. Long Thạnh Mỹ, TP. Thủ Đức, TP. Hồ Chí Minh
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium blanditiis commodi deleniti est
+                    et facilis iste libero minima modi non, obcaecati quas qui repellat saepe soluta, ullam vero?
+                    Aspernatur, quae!
                 </p>
-                <p>Điện thoại: 024 7300 1866</p>
+                <p>Điện thoại: 9999999999 </p>
                 <p>Email: daihocbonba@edu.vn</p>
             </div>
         </div>
         <div class="col-md-3">
             <h4 class="widget-title">ĐÀ NẴNG</h4>
             <div class="text-widget">
-                <p>Đà Nẵng, P. Hoà Hải, Q. Ngũ Hành Sơn, TP. Đà Nẵng</p>
-                <p>Điện thoại: 024 7300 1866</p>
+                <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi aperiam assumenda blanditiis
+                    delectus doloribus est fugiat fugit illo incidunt numquam obcaecati, praesentium quam repudiandae
+                    sed sit tempora ullam unde vel?</p>
+                <p>Điện thoại: 999999999</p>
                 <p>Email: daihocbonba@edu.vn</p>
             </div>
         </div>
         <div class="col-md-3">
             <h4 class="widget-title">CẦN THƠ</h4>
             <div class="text-widget">
-                <p>Số 600 Đường Nguyễn Văn Cừ (nối dài), P. An Bình, Q. Ninh Kiều, TP. Cần Thơ</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi distinctio dolorem ducimus enim eos,
+                    et fugiat harum ipsum nemo nostrum officia optio quam quasi quisquam sunt totam velit? Aliquid,
+                    cumque.</p>
                 <p>Điện thoại: 024 7300 1866</p>
                 <p>Email: daihocbonba@edu.vn</p>
             </div>

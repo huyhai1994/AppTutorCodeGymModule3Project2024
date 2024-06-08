@@ -1,0 +1,38 @@
+.navbar-nav {
+    flex: 1;
+    justify-content: center;
+}
+.main-menu{
+    background-color: #FF8C00;
+}
+.footer {
+    background-color: #FF8C00;
+}
+/*css login*/
+.form-login {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+    max-width: 450px;
+    width: 100%;
+    margin:200px auto;
+}
+
+.form-login .checkbox {
+    font-weight: 400;
+}
+
+.form-login .form-floating:focus-within {
+    z-index: 2;
+}
+#bg-admin{
+}
+
+#bg-admin{
+    background: url(https://e0.pxfuel.com/wallpapers/141/332/desktop-wallpaper-education-education-education-technology.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
