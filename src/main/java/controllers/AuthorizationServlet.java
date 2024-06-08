@@ -11,11 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 
-
 @WebServlet(name = "AuthorizationServlet", urlPatterns = ControllersUrl.AUTHORIZATION)
 public class AuthorizationServlet extends HttpServlet {
     private AuthozirationService authozirationService;
-
 
     @Override
     public void init(ServletConfig config) throws ServletException {
