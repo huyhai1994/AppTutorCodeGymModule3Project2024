@@ -1,5 +1,6 @@
 package services;
 
+import controllers.ControllersUrl;
 import entity.Admin;
 import entity.Student;
 import models.AdminModel;
@@ -22,9 +23,8 @@ public class AuthozirationService {
         this.studentModel = new StudentModel();
     }
 
-
     public void renderPageLogin(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        RequestDispatcher out = req.getRequestDispatcher("/views/authorization/login.jsp");
+        RequestDispatcher out = req.getRequestDispatcher(ServiceUrl.LOGIN_JSP);
         out.forward(req, resp);
     }
 
@@ -32,13 +32,13 @@ public class AuthozirationService {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
         Admin admin = this.adminModel.findUserAdmin(username, password);
-        if (admin!= null) {
+        if (admin != null) {
             HttpSession session = req.getSession();
             session.setAttribute("admin", admin.getName());
-            resp.sendRedirect("/auth/login/admin");
+            resp.sendRedirect(ControllersUrl.ADMIN_DASHBOARD);
         } else {
             Student student = this.studentModel.findStudent(username, password);
-            if (student!= null) {
+            if (student != null) {
                 HttpSession session = req.getSession();
                 session.setAttribute("student", student);
                 resp.sendRedirect("/auth/login/student");
@@ -57,7 +57,7 @@ public class AuthozirationService {
         String email = req.getParameter("email");
         String phone = req.getParameter("phone");
         int classId = Integer.parseInt(req.getParameter("classId"));
-        Student student = new Student(name,code,password,gender,birthdate,email,phone,classId);
+        Student student = new Student(name, code, password, gender, birthdate, email, phone, classId);
         this.adminModel.addStudent(student);
         resp.sendRedirect("/login/student");
     }
@@ -67,7 +67,7 @@ public class AuthozirationService {
         String email = req.getParameter("email");
         String phone = req.getParameter("phone");
         String password = this.studentModel.forgotPassword(username, email, phone);
-        if (password != null){
+        if (password != null) {
             HttpSession session = req.getSession();
             session.setAttribute("password", password);
         } else {
